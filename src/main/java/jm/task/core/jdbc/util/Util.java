@@ -18,7 +18,8 @@ public class Util {
                                                 String userName, String password) throws SQLException{
 
         String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
-
-        return DriverManager.getConnection(connectionURL, userName, password);
+        Connection connection = DriverManager.getConnection(connectionURL, userName, password);
+        connection.setAutoCommit(false);
+        return connection;
     }
 }

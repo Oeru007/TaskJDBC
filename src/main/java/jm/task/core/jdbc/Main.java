@@ -16,7 +16,6 @@ public class Main {
         users.add(new User("Vasiliy", "Ivanov", (byte) 88));
         users.add(new User("Ivan", "Vasilevich", (byte) 10));
         userDaoJDBC.createUsersTable();
-        userDaoJDBC.createUsersTable();
         users.forEach(user -> {
             userDaoJDBC.saveUser(user.getName(), user.getLastName(), user.getAge());
             System.out.printf("User с именем – %s добавлен в базу данных\n" , user.getName());
@@ -24,7 +23,6 @@ public class Main {
         users = userDaoJDBC.getAllUsers();
         users.forEach(System.out::println);
         userDaoJDBC.cleanUsersTable();
-        userDaoJDBC.dropUsersTable();
         userDaoJDBC.dropUsersTable();
     }
 }

@@ -39,11 +39,13 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         String save = "insert into users(name, lastName,age) values (?, ?, ?)";
-        try (PreparedStatement statement = Util.getMySQLConnection().prepareStatement(save)) {
+        try (Connection conn = Util.getMySQLConnection();
+             PreparedStatement statement = conn.prepareStatement(save)) {
             statement.setString(1, name);
             statement.setString(2, lastName);
             statement.setByte(3, age);
             statement.execute();
+            conn.commit();
         } catch (SQLException ignore) {
 
         }
@@ -51,9 +53,11 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         String delete = "delete from users where id = ? ";
-        try (PreparedStatement statement = Util.getMySQLConnection().prepareStatement(delete)) {
+        try (Connection conn = Util.getMySQLConnection();
+             PreparedStatement statement = conn.prepareStatement(delete)) {
             statement.setLong(1, id);
             statement.execute();
+            conn.commit();
         } catch (SQLException ignore) {
 
         }
@@ -61,7 +65,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
 
-        try (Statement statement = Util.getMySQLConnection().createStatement();
+        try (Connection conn = Util.getMySQLConnection();
+             Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery("select * from users")) {
             users = new ArrayList<>();
             while (resultSet.next()){
@@ -70,6 +75,7 @@ public class UserDaoJDBCImpl implements UserDao {
                         resultSet.getByte("age"));
                 user.setId(resultSet.getLong("id"));
                 users.add(user);
+                conn.commit();
             }
         } catch (SQLException ignore) {
 
