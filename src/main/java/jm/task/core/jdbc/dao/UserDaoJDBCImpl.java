@@ -39,27 +39,59 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         String save = "insert into users(name, lastName,age) values (?, ?, ?)";
-        try (Connection conn = Util.getMySQLConnection();
-             PreparedStatement statement = conn.prepareStatement(save)) {
+        Connection conn = null;
+        try {
+            conn = Util.getMySQLConnection();
+            PreparedStatement statement = conn.prepareStatement(save);
             statement.setString(1, name);
             statement.setString(2, lastName);
             statement.setByte(3, age);
             statement.execute();
             conn.commit();
-        } catch (SQLException ignore) {
-
+        } catch (SQLException exception) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void removeUserById(long id) {
         String delete = "delete from users where id = ? ";
-        try (Connection conn = Util.getMySQLConnection();
-             PreparedStatement statement = conn.prepareStatement(delete)) {
+        Connection conn = null;
+        try {
+            conn = Util.getMySQLConnection();
+            PreparedStatement statement = conn.prepareStatement(delete);
             statement.setLong(1, id);
             statement.execute();
             conn.commit();
-        } catch (SQLException ignore) {
-
+        } catch (SQLException exception) {
+            if (conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -75,7 +107,6 @@ public class UserDaoJDBCImpl implements UserDao {
                         resultSet.getByte("age"));
                 user.setId(resultSet.getLong("id"));
                 users.add(user);
-                conn.commit();
             }
         } catch (SQLException ignore) {
 
@@ -84,7 +115,8 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try (Statement statement = Util.getMySQLConnection().createStatement()) {
+        try (Connection connection = Util.getMySQLConnection()) {
+            Statement statement = connection.createStatement();
             String clean = "truncate table users";
             statement.execute(clean);
         } catch (SQLException ignore) {
