@@ -16,7 +16,7 @@ public class Main {
         users.add(new User("Sergey", "Alexandrov", (byte) 24));
         users.add(new User("Alexandr", "Sergeev", (byte) 42));
         users.add(new User("Vasiliy", "Ivanov", (byte) 88));
-        users.add(new User("Ivan", "Vasilevich", (byte) 10));
+        users.add(new User("Ivan", "Vasilevich", (byte) 18));
         userService.createUsersTable();
         users.forEach(user -> {
             userService.saveUser(user.getName(), user.getLastName(), user.getAge());
