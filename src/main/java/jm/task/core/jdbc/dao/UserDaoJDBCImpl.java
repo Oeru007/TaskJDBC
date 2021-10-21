@@ -52,16 +52,16 @@ public class UserDaoJDBCImpl implements UserDao {
             if (conn != null) {
                 try {
                     conn.rollback();
-                } catch (SQLException ignore) {
-
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         } finally {
             if (conn != null) {
                 try {
                     conn.close();
-                } catch (SQLException ignore) {
-
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -80,8 +80,8 @@ public class UserDaoJDBCImpl implements UserDao {
             if (conn != null) {
                 try {
                     conn.rollback();
-                } catch (SQLException ignore) {
-
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         } finally {
