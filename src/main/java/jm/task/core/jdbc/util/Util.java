@@ -56,8 +56,8 @@ public class Util {
                         .build();
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
-            } catch (HibernateException e) {
-                e.printStackTrace();
+            } catch (RuntimeException ignored) {
+
             }
         }
         return sessionFactory;
