@@ -9,7 +9,7 @@ public class Util {
         String hostName = "localhost";
         String dbName = "jmpp113";
         String userName = "root";
-        String password = "1346798250Alen";
+        String password = "password";
 
         return getMySQLConnection(hostName, dbName, userName, password);
     }
